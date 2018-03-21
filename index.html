@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vuejs</title>
+
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        #app {
+            width: 1140px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .div {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;            
+        }
+
+        .div p {
+            width: 25%;
+            padding-right: 15px;
+        }
+
+        .div p img {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app" v-cloak>
+        <div class="div">
+            <p v-for="film in filmler">
+                <img :src="'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + film.poster_path" :alt="film.title">
+                <br> Film Adı: {{ film.original_title }}
+                <br> Dili: {{ film.original_language }}
+                <br> Puan: {{ film.vote_average }}
+
+            </p>
+            </ul>
+        </div>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+        <script>
+            var api = 'https://api.themoviedb.org/3/movie/popular?api_key=0f17bafeb7d9fda0c1560d29b6259066';
+            new Vue({
+                el: '#app',
+                data: {
+                    filmler: []
+                },
+                mounted() {
+                    axios.get(api).then((response) => {
+                        console.log(response.data.results)
+                        this.filmler = response.data.results;
+                    })
+                }
+            });
+        </script>
+</body>
+
+</html>
