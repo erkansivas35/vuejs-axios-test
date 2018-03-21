@@ -12,6 +12,11 @@
             display: none;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
         #app {
             width: 1140px;
             margin-left: auto;
@@ -22,15 +27,17 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            justify-content: center;            
+            justify-content: center;
         }
 
-        .div p {
+        .div .film {
             width: 25%;
             padding-right: 15px;
+            text-align: center;
+            margin-bottom: 15px;
         }
 
-        .div p img {
+        .div .film img {
             width: 100%;
         }
     </style>
@@ -40,33 +47,37 @@
 
     <div id="app" v-cloak>
         <div class="div">
-            <p v-for="film in filmler">
-                <img :src="'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + film.poster_path" :alt="film.title">
-                <br> Film Adı: {{ film.original_title }}
-                <br> Dili: {{ film.original_language }}
-                <br> Puan: {{ film.vote_average }}
+            <div class="film" v-for="film in filmler">
+                <a :href="'https://www.themoviedb.org/movie/' + film.id" target="_blank">
+                    <img :src="'https://image.tmdb.org/t/p/w600_and_h900_bestv2' + film.poster_path" :alt="film.title">
+                </a>
+                <p>
+                    <b>Film Adı:</b> {{ film.original_title }}</p>
+                <p>
+                    <b>Dili:</b> {{ film.original_language }}</p>
+                <p>
+                    <b>Puan:</b> {{ film.vote_average }}</p>
 
-            </p>
-            </ul>
+            </div>
         </div>
+    </div>
 
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-        <script>
-            var api = 'https://api.themoviedb.org/3/movie/popular?api_key=0f17bafeb7d9fda0c1560d29b6259066';
-            new Vue({
-                el: '#app',
-                data: {
-                    filmler: []
-                },
-                mounted() {
-                    axios.get(api).then((response) => {
-                        console.log(response.data.results)
-                        this.filmler = response.data.results;
-                    })
-                }
-            });
-        </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var api = 'https://api.themoviedb.org/3/movie/popular?api_key=0f17bafeb7d9fda0c1560d29b6259066';
+        new Vue({
+            el: '#app',
+            data: {
+                filmler: []
+            },
+            mounted() {
+                axios.get(api).then((response) => {
+                    this.filmler = response.data.results;
+                })
+            }
+        });
+    </script>
 </body>
 
 </html>
