@@ -136,7 +136,7 @@
             },
             mounted() {
                 this.loading = true,
-                    axios.get('https://api.themoviedb.org/3/movie/popular?api_key=0f17bafeb7d9fda0c1560d29b6259066').then((response) => {
+                    axios.get(api).then((response) => {
                         this.popfilmler = response.data.results,
                             this.loading = false
                     });
